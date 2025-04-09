@@ -1,6 +1,9 @@
 const express = require('express');
 const app = express();
 const PORT = process.env.PORT || 3000;
+const connectDB = require('./config/db');
+connectDB();
+require('dotenv').config();
 
 // Middleware
 app.use(express.json());

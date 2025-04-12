@@ -1,43 +1,49 @@
-// src/validators/roomValidators.js
 import { body } from 'express-validator';
-import moment from 'moment';
 
-export const roomBookingValidation = [
-    body('roomId')
-        .isMongoId()
-        .withMessage('Booking validation failed Room ID must be a valid MongoDB ObjectId'),
-
-    body('date')
-        .custom((value) => {
-            // Check if the value is valid in either DD-MM-YY or YYYY-MM-DD format
-            const formattedDate = moment(value, ['DD-MM-YY', 'YYYY-MM-DD'], true);
-            if (!formattedDate.isValid()) {
-                throw new Error('Date must be a valid date in DD-MM-YY or YYYY-MM-DD format');
-            }
-            // Return the formatted date in the correct format (YYYY-MM-DD)
-            return formattedDate.format('YYYY-MM-DD');
-        }),
-
-    body('startTime')
-        .matches(/^([0-9]{1,2}):([0-9]{2}) (AM|PM)$/)
-        .withMessage('Start time must be in 12-hour format (e.g., 12:00 PM)'),
-
-    body('endTime')
-        .matches(/^([0-9]{1,2}):([0-9]{2}) (AM|PM)$/)
-        .withMessage('End time must be in 12-hour format (e.g., 02:00 PM)'),
-
-    body('purpose')
+// ✅ For creating a room
+export const createRoomValidation = [
+    body('name')
         .notEmpty()
-        .withMessage('Purpose is required')
+        .withMessage('Room name is required')
         .isString()
-        .withMessage('Purpose must be a string'),
+        .withMessage('Room name must be a string'),
+
+    body('roomNumber')
+        .notEmpty()
+        .withMessage('Room number is required')
+        .isString()
+        .withMessage('Room number must be a string'),
+
+    body('status')
+        .optional()
+        .isIn(['available', 'booked'])
+        .withMessage('Status must be either "available" or "booked"'),
+
+    body('description')
+        .optional()
+        .isString()
+        .withMessage('Description must be a string'),
 ];
 
-export const roomBookingUpdateValidation = [
-    body('newStartTime')
-        .matches(/^([0-9]{1,2}):([0-9]{2}) (AM|PM)$/)
-        .withMessage('New start time must be in 12-hour format (e.g., 08:00 AM)'),
-    body('newEndTime')
-        .matches(/^([0-9]{1,2}):([0-9]{2}) (AM|PM)$/)
-        .withMessage('New end time must be in 12-hour format (e.g., 10:00 AM)'),
+// ✅ For updating a room
+export const updateRoomValidation = [
+    body('name')
+        .optional()
+        .isString()
+        .withMessage('Room name must be a string'),
+
+    body('roomNumber')
+        .optional()
+        .isString()
+        .withMessage('Room number must be a string'),
+
+    body('status')
+        .optional()
+        .isIn(['available', 'booked'])
+        .withMessage('Status must be either "available" or "booked"'),
+
+    body('description')
+        .optional()
+        .isString()
+        .withMessage('Description must be a string'),
 ];

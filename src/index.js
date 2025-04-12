@@ -2,6 +2,7 @@ import express from 'express';
 import dotenv from 'dotenv';
 import connectDB from './config/db.js';
 import authRoutes from './routes/auth.js';
+import roomRoutes from './routes/roomRoutes.js';
 
 dotenv.config(); // load .env first
 
@@ -16,6 +17,7 @@ app.use(express.json());
 
 // Routes
 app.use('/api/auth', authRoutes);
+app.use('/api/rooms', roomRoutes);  // Room routes
 
 // Start server
 app.listen(PORT, () => {

@@ -1,10 +1,12 @@
-const mongoose = require('mongoose');
+// src/models/Room.js
+import mongoose from 'mongoose';
 
 const RoomSchema = new mongoose.Schema({
-    name: { type: String, required: true }, // e.g., "Conference Room", "Meeting Room A"
-    roomNumber: { type: String, required: true, unique: true }, // e.g., "101", "A-02"
+    name: { type: String, required: true },
+    roomNumber: { type: String, required: true, unique: true },
     status: { type: String, enum: ['available', 'booked'], default: 'available' },
-    description: { type: String }, // optional: floor, features, capacity
+    description: { type: String },
 }, { timestamps: true });
 
-module.exports = mongoose.model('Room', RoomSchema);
+const Room = mongoose.model('Room', RoomSchema);
+export default Room;

@@ -1,4 +1,5 @@
-const mongoose = require('mongoose');
+// src/models/Booking.js
+import mongoose from 'mongoose';
 
 const BookingSchema = new mongoose.Schema({
     user: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
@@ -9,4 +10,5 @@ const BookingSchema = new mongoose.Schema({
     purpose: { type: String }, // optional: reason for booking
 }, { timestamps: true });
 
-module.exports = mongoose.model('Booking', BookingSchema);
+const Booking = mongoose.model('Booking', BookingSchema);
+export default Booking;

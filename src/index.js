@@ -1,19 +1,23 @@
-const express = require('express');
-const app = express();
-const PORT = process.env.PORT || 3000;
-const connectDB = require('./config/db');
-connectDB();
-require('dotenv').config();
+import express from 'express';
+import dotenv from 'dotenv';
+import connectDB from './config/db.js';
+import authRoutes from './routes/auth.js';
 
-// Middleware
+dotenv.config(); // load .env first
+
+const PORT = process.env.PORT || 3000;
+
+// Initialize DB
+connectDB();
+
+// Create app
+const app = express();
 app.use(express.json());
 
-// Sample route
-app.get('/', (req, res) => {
-    res.send('Hello from Phase 2 Backend!');
-});
+// Routes
+app.use('/api/auth', authRoutes);
 
 // Start server
 app.listen(PORT, () => {
-    console.log(`Server is running on http://localhost:${PORT}`);
+    console.log(`🚀 Server is running on http://localhost:${PORT}`);
 });
